@@ -1,0 +1,9 @@
+{
+  "appId": "com.gamavision.app",
+  "appName": "GAMAVISION App",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "ios":{
+    "contentInset":"always"
+  }
+}
