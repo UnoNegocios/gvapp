@@ -4,13 +4,13 @@ const state = {
     posts_by_category:[],
     posts:[],
     show_by_category:false,
-    show:false
+    show:false,
+    next_page:''
 };
 const getters = {};
 
 const actions = {
     getPostByCategory( {commit, state}, props ){
-        console.log(props)
         this.show_by_category = false
         var items_per_page = props.items_per_page
         var category = ''
@@ -21,6 +21,8 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get('https://gv.unocrm.mx/api/v1/news?itemsPerPage=' + items_per_page + category).then(response => {
                 commit('setPostByCategory', response.data.data);
+                state.next_page = response.data.links.next
+                console.log(state.next_page)
                 state.show_by_category = true;
             }).finally(() => (resolve(false)))
         })
@@ -29,7 +31,17 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get('https://gv.unocrm.mx/api/v1/news?itemsPerPage='+items_per_page).then(response => {
                 commit('setPosts', response.data.data);
+                state.next_page = response.data.links.next
                 state.show = true;
+            }).finally(() => (resolve(false)))
+        })
+    },
+    getNextPosts( {commit, state} ){
+        return new Promise((resolve, reject) => {
+            axios.get(state.next_page).then(response => {
+                commit('setMorePostByCategory', response.data.data);
+                state.next_page = response.data.links.next
+                state.show_by_category = true;
             }).finally(() => (resolve(false)))
         })
     },
@@ -38,6 +50,9 @@ const actions = {
 const mutations = {
     setPostByCategory(state, data){
         state.posts_by_category = data;
+    },
+    setMorePostByCategory(state, data){
+        state.posts_by_category = state.posts_by_category.concat(data);
     },
     setPosts(state, data){
         state.posts = data;

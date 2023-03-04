@@ -123,7 +123,7 @@ IonRefresherContent
       });
     },
     dateFormat(date){
-        if(date == this.hoy){
+        if(date.slice(0, 10) == this.hoy){
           var hora = date.slice(11,16)
           if((hora.slice(0,2)*1)>12){
             return hora.slice(0,2)-12 + hora.slice(2,5) + ' P.M.'
@@ -132,7 +132,7 @@ IonRefresherContent
           }
         }else{
           // Creamos el objeto fecha instanciándolo con la clase Date
-          const fecha = new Date(date.slice(0,10));
+          const fecha = new Date(date.slice(0,10) + ' 00:00:00');
           // Creamos array con los días de la semana
           const dias_semana = ['Domingo', 'Lunes', 'martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
           //Creamos constante para el dia de hoy

@@ -7,7 +7,7 @@
 </ion-refresher>
 
       <!--div id="container"--->
-        <marquee style="background:#1f1f1f; padding:9px 0px 7px 0px;">
+        <marquee style="background:#1f1f1f; padding:9px 0px 7px 0px; position: fixed; z-index: 9;">
           <span v-for="(element, index) in slides.data" v-bind:key="index">
             <ion-chip style="height: 20px; background: white; color: black; font-weight: 600; font-size: 12px; transform: translateY(-1px); border-radius:5px;">
               {{element.categories[0].name}}
@@ -16,7 +16,7 @@
           </span>
         </marquee>
 
-        <ion-slides pager="true" :options="slideOpts" v-if="slides.show">
+        <ion-slides pager="true" :options="slideOpts" v-if="slides.show" style="margin-top:40px;">
           <ion-slide :router-link="`/detail/${slide.slug}`" v-for="(slide, index) in slides.data" v-bind:key="index">
             <ion-card :style="'margin:0px; background-position: center; background-size: cover!important; background-image: url(' + slide.featured_media_path + '); height:50vh; width:100vw!important;'">
               <div class="ion-padding" style="background:#1c1c1d; position:absolute; bottom:0; width:100vw">
@@ -58,6 +58,10 @@
               </div>
             </ion-card>
 
+            
+
+            
+
 
             <!--ion-card style="margin-top:10px;" v-for="(element, index) in news.data" v-bind:key="index" :router-link="`/detail/${element.slug}`">
               <ion-img class="ion-justify-content-start" :src="element.featured_media_path" ></ion-img>
@@ -68,6 +72,10 @@
             </ion-card-->
           </div>
 
+          <ion-infinite-scroll v-if="next_link!=undefined" @ionInfinite="ionInfinite($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+
           
           <ion-slides v-if="banners_slider2!=undefined" pager="false" :options="slideOpts2">
             <ion-slide v-for="banner in banners_slider2" :key="banner.id" @click="clicAd(banner)">
@@ -75,7 +83,9 @@
             </ion-slide>
           </ion-slides>
 
-          <ion-button expand="block" color="primary" style="margin:30px;" :router-link="`/posts/${category}`">VER MÁS</ion-button>
+          <!--ion-button expand="block" color="primary" style="margin:30px;" :router-link="`/posts/${category}`">VER MÁS</ion-button-->
+
+          
 
           
       <!--/div-->
@@ -127,6 +137,9 @@ IonRefresherContent
     }
   },
   computed:{
+    next_link(){
+      return this.$store.state.posts.next_page
+    },
     categories(){
       return this.$store.state.categories.categories
     },
@@ -144,10 +157,17 @@ IonRefresherContent
     },
   },
   methods:{
+    ionInfinite(ev){
+      console.log('perro')
+      this.$store.dispatch('posts/getNextPosts').then(response=>{
+        console.log('gato')
+        ev.target.complete()
+      })
+    },
     handleRefresh(event) {
       this.$store.dispatch('posts/getPosts', 6).then(response=>{
         this.$store.dispatch('categories/getCategories').then(response=>{
-          this.$store.dispatch('posts/getPostByCategory', {items_per_page:'3', category:''}).then(response=>{
+          this.$store.dispatch('posts/getPostByCategory', {items_per_page:'10', category:''}).then(response=>{
             event.target.complete();
           })
         })
@@ -173,13 +193,13 @@ IonRefresherContent
     segmentChanged(category_id) {
       this.category = category_id
       if(category_id=='inicio'){
-        this.$store.dispatch('posts/getPostByCategory', {items_per_page:'3', category:''})
+        this.$store.dispatch('posts/getPostByCategory', {items_per_page:'10', category:''})
       }else{
-        this.$store.dispatch('posts/getPostByCategory', {items_per_page:'3', category:category_id})
+        this.$store.dispatch('posts/getPostByCategory', {items_per_page:'10', category:category_id})
       }
     },
     dateFormat(date){
-        if(date == this.hoy){
+        if(date.slice(0, 10) == this.hoy){
           var hora = date.slice(11,16)
           if((hora.slice(0,2)*1)>12){
             return hora.slice(0,2)-12 + hora.slice(2,5) + ' P.M.'
@@ -188,7 +208,7 @@ IonRefresherContent
           }
         }else{
           // Creamos el objeto fecha instanciándolo con la clase Date
-          const fecha = new Date(date.slice(0,10));
+          const fecha = new Date(date.slice(0,10) + ' 00:00:00');
           // Creamos array con los días de la semana
           const dias_semana = ['Domingo', 'Lunes', 'martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
           //Creamos constante para el dia de hoy
