@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { IonText, IonRefresher, IonRefresherContent, IonContent, IonHeader, IonSegment, IonChip, IonPage, IonTitle, IonCard, IonCardTitle, IonImg, IonCardSubtitle } from '@ionic/vue';
+import { IonText, IonRefresher, IonInfiniteScroll, IonInfiniteScrollContent, IonRefresherContent, IonContent, IonHeader, IonSegment, IonChip, IonPage, IonTitle, IonCard, IonCardTitle, IonImg, IonCardSubtitle } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import axios from 'axios'
 
@@ -57,7 +57,9 @@ export default defineComponent({
     IonChip, 
     IonCardSubtitle,
     IonRefresher,
-IonRefresherContent
+IonRefresherContent,
+IonInfiniteScroll,
+    IonInfiniteScrollContent,
   },
   data(){
     return{
@@ -153,7 +155,7 @@ IonRefresherContent
   created(){
     var filter = ''
     if(this.$route.params.id!='inicio'){
-      filter = '?filter[Categories.id]='+this.$route.params.id
+      filter = '?filter[Categories.name]='+this.$route.params.id
     }
     axios.get('https://gv.unocrm.mx/api/v1/news'+filter).then(response => {
       this.meta = {
@@ -165,10 +167,11 @@ IonRefresherContent
       this.news.data = Object.freeze(response.data.data)
       this.news.show = true
     })
-    axios.get('https://gv.unocrm.mx/api/v1/display_ad?filter[is_in_time]=true&filter[is_in_hour]=true&filter[position]=Categoría&itemsPerPage=3').then(response=>{
+
+    axios.get('https://gv.unocrm.mx/api/v1/display_ad?filter[is_in_time]=true&filter[is_in_hour]=true&filter[position]=Categoría '+this.$route.params.id+' (Arriba)&itemsPerPage=3').then(response=>{
       this.banners_slider = response.data
     })
-    axios.get('https://gv.unocrm.mx/api/v1/display_ad?filter[is_in_time]=true&filter[is_in_hour]=true&filter[position]=Categoría&itemsPerPage=3').then(response=>{
+    axios.get('https://gv.unocrm.mx/api/v1/display_ad?filter[is_in_time]=true&filter[is_in_hour]=true&filter[position]=Categoría '+this.$route.params.id+' (Abajo)&itemsPerPage=3').then(response=>{
       this.banners_slider2 = response.data
     })
   }

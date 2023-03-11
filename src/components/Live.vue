@@ -7,7 +7,7 @@
             <ion-icon :icon="arrowBack"></ion-icon>
           </ion-button>
         </ion-buttons>
-        <ion-title style="text-align:center;">Video en VIVO<!--{{live.name}}--></ion-title>
+        <ion-title style="text-align:center;">Video en VIVOo<!--{{live.name}}--></ion-title>
       </ion-toolbar>
       
         <ion-card style="margin:20px;">

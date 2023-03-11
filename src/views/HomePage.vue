@@ -95,7 +95,7 @@
 
 <script>
 
-import { IonText, IonRefresher, IonRefresherContent,IonContent, IonHeader, IonSegment, IonChip, IonPage, IonTitle, IonToolbar, IonSlides, IonSlide, IonButton, IonCard, IonCardTitle, IonCardSubtitle, IonImg } from '@ionic/vue';
+import { IonText, IonRefresher, IonInfiniteScroll, IonInfiniteScrollContent, IonRefresherContent,IonContent, IonHeader, IonSegment, IonChip, IonPage, IonTitle, IonToolbar, IonSlides, IonSlide, IonButton, IonCard, IonCardTitle, IonCardSubtitle, IonImg } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import axios from 'axios'
 
@@ -118,7 +118,9 @@ export default defineComponent({
     IonChip, 
     IonCardSubtitle,
     IonRefresher,
-IonRefresherContent
+IonRefresherContent,
+IonInfiniteScroll,
+    IonInfiniteScrollContent,
   },
   data(){
     return{
@@ -158,9 +160,7 @@ IonRefresherContent
   },
   methods:{
     ionInfinite(ev){
-      console.log('perro')
       this.$store.dispatch('posts/getNextPosts').then(response=>{
-        console.log('gato')
         ev.target.complete()
       })
     },
@@ -227,10 +227,10 @@ IonRefresherContent
     },
   },
   created(){
-    axios.get('https://gv.unocrm.mx/api/v1/display_ad?filter[is_in_time]=true&filter[is_in_hour]=true&filter[position]=Inicio&itemsPerPage=3').then(response=>{
+    axios.get('https://gv.unocrm.mx/api/v1/display_ad?filter[is_in_time]=true&filter[is_in_hour]=true&filter[position]=Inicio (Arriba)&itemsPerPage=3').then(response=>{
       this.banners_slider = response.data
     })
-    axios.get('https://gv.unocrm.mx/api/v1/display_ad?filter[is_in_time]=true&filter[is_in_hour]=true&filter[position]=Inicio&itemsPerPage=3').then(response=>{
+    axios.get('https://gv.unocrm.mx/api/v1/display_ad?filter[is_in_time]=true&filter[is_in_hour]=true&filter[position]=Inicio (Abajo)&itemsPerPage=3').then(response=>{
       this.banners_slider2 = response.data
     })
   }

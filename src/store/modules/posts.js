@@ -21,7 +21,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get('https://gv.unocrm.mx/api/v1/news?itemsPerPage=' + items_per_page + category).then(response => {
                 commit('setPostByCategory', response.data.data);
-                state.next_page = response.data.links.next
+                state.next_page = response.data.links.next.replace('%5B', '[').replace('%5D', ']')
                 console.log(state.next_page)
                 state.show_by_category = true;
             }).finally(() => (resolve(false)))
@@ -31,7 +31,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get('https://gv.unocrm.mx/api/v1/news?itemsPerPage='+items_per_page).then(response => {
                 commit('setPosts', response.data.data);
-                state.next_page = response.data.links.next
+                state.next_page = response.data.links.next.replace('%5B', '[').replace('%5D', ']')
                 state.show = true;
             }).finally(() => (resolve(false)))
         })
@@ -40,7 +40,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(state.next_page).then(response => {
                 commit('setMorePostByCategory', response.data.data);
-                state.next_page = response.data.links.next
+                state.next_page = response.data.links.next.replace('%5B', '[').replace('%5D', ']')
                 state.show_by_category = true;
             }).finally(() => (resolve(false)))
         })

@@ -90,7 +90,7 @@ IonRefresherContent
   created(){
     this.$store.dispatch('podcast/getPodcasts', this.$route.params.id);
     //this.$store.dispatch('live/getLives');
-    var perro = 'Episodio'
+    var perro = 'Episodio de Podcast'
     axios.get('https://gv.unocrm.mx/api/v1/display_ad?filter[is_in_time]=true&filter[is_in_hour]=true&filter[position]=' + perro + '&itemsPerPage=3').then(response=>{
       this.banners_slider = response.data
     })

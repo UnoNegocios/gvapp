@@ -20,10 +20,8 @@
             <!--video :autoplay="true" class="wp-video-shortcode" id="video-497065-1" style="width:100%; height:45vw;" controls>
                 <source type="video/mp4" :src="'https://streamlov.alsolnet.com/gamavision/live/playlist.m3u8'">
             </video-->
-            <div style="padding:56.25% 0 0 0;position:relative;">
-
-              <iframe src="//closeradio.tv/gamavision/player.htm" allow="autoplay" scrolling="no" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-
+            <div v-if="live!=undefined" style="padding:56.25% 0 0 0;position:relative;">
+              <div v-html="live.embedded_code" :wrap_code="true"></div>
 
             </div>
         </ion-card>
@@ -104,7 +102,8 @@ IonRefresherContent
   },
   data(){
     return{
-      showContent:true
+      showContent:true,
+      live:{}
     }
   },
   setup(){
@@ -147,12 +146,15 @@ IonRefresherContent
     }
   },
   created(){
+    axios.get('https://gv.unocrm.mx/api/v1/live?filter[is_active]=1').then(response =>{
+          this.live = response.data.data[0]
+    });
     //this.$store.dispatch('live/getLives');
     var perro = 'En Vivo'
     axios.get('https://gv.unocrm.mx/api/v1/display_ad?filter[is_in_time]=true&filter[is_in_hour]=true&filter[position]=' + perro + '&itemsPerPage=3').then(response=>{
       this.banners_slider = response.data
     })
-  }
+  },
 });
 </script>
 

@@ -91,7 +91,7 @@ IonRefresherContent
     }
   },
   created(){
-    axios.get('https://gv.unocrm.mx/api/v1/display_ad?filter[is_in_time]=true&filter[is_in_hour]=true&filter[position]=Noticia&itemsPerPage=3').then(response=>{
+    axios.get('https://gv.unocrm.mx/api/v1/display_ad?filter[is_in_time]=true&filter[is_in_hour]=true&filter[position]=Detalle de Noticia&itemsPerPage=3').then(response=>{
       this.banners_slider = response.data
     })
   },

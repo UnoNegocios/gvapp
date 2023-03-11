@@ -13,7 +13,7 @@ const actions = {
     console.log(filter)
     commit("setFilter", filter)
     commit("setLoader", true)
-    axios.get('https://gv.unocrm.mx/api/v1/news?filter[search]='+filter).then(response => {
+    axios.get('https://gv.unocrm.mx/api/v1/news?filter[title_or_tag]='+filter).then(response => {
       commit("setResult", response.data.data)
       router.push('/search')
       commit("setLoader", false)
@@ -31,7 +31,7 @@ const actions = {
   },
   refreshResults({commit}){
     return new Promise((resolve, reject) => {
-      axios.get('https://gv.unocrm.mx/api/v1/news?filter[search]='+state.filter).then(response => {
+      axios.get('https://gv.unocrm.mx/api/v1/news?filter[title_or_tag]='+state.filter).then(response => {
         commit("setResult", response.data.data)
         commit("setMeta", {
           next_link: response.data.links.next,

@@ -100,7 +100,7 @@
 
       <ion-content :scroll-events="true" style="height:calc(100vh - 220px)!important;">
             <ion-list style="height:calc(100vh - 220px)!important; overflow-y: scroll;">
-              <ion-item v-for="(category, index) in categories" v-bind:key="index" @click="closeMenu()" :router-link="`/posts/${category.id}`">- {{category.name}}</ion-item>
+              <ion-item v-for="(category, index) in categories" v-bind:key="index" @click="closeMenu()" :router-link="`/posts/${category.name}`">- {{category.name}}</ion-item>
             </ion-list>
         </ion-content>
 
@@ -207,31 +207,31 @@ export default defineComponent({
             break;
 
           case "https://gamavision.com/categorias/Local":
-            router.push('/posts/1');
+            router.push('/posts/Local');
           break;
 
           case "https://gamavision.com/categorias/Nacional":
-            router.push('/posts/2');
+            router.push('/posts/Nacional');
           break;
 
           case "https://gamavision.com/categorias/Negocios":
-            router.push('/posts/3');
+            router.push('/posts/Negocios');
           break;
 
           case "https://gamavision.com/categorias/Internacional":
-            router.push('/posts/4');
+            router.push('/posts/Internacional');
           break;
 
           case "https://gamavision.com/categorias/Deportes":
-            router.push('/posts/5');
+            router.push('/posts/Deportes');
           break;
 
           case "https://gamavision.com/categorias/Espect%C3%A1culos":
-            router.push('/posts/6');
+            router.push('/posts/Espect%C3%A1culos');
           break;
 
           case "https://gamavision.com/categorias/Editorial":
-            router.push('/posts/7');
+            router.push('/posts/Editorial');
           break;
 
           
